@@ -90,6 +90,7 @@ unsigned int rand_interval(unsigned int min, unsigned int max)
 int main(void) {
 
     int i, x;
+    int probIO = 0;
 
     // Inicializar as filas
     Queue *Proc = createQueue();
@@ -110,9 +111,29 @@ int main(void) {
       proce[i].status = STATUSALTAPRI;
       proce[i].prioridade = ALTAPRI;
       proce[i].tserv = rand_interval(2,10);
-      proce[i].tIOImpressora = 0;
-      proce[i].tIOFita = 0;
-      proce[i].tIODisco = 0;
+
+      probIO = (rand() % 12);
+      if (probIO <= 2) {
+          proce[i].tIOImpressora = 1 + (rand() % proce[i].tserv);
+          proce[i].tIOFita = 0;
+          proce[i].tIODisco = 0;
+
+      }
+      if (probIO > 2 && probIO <= 4) {
+          proce[i].tIOImpressora = 0;
+          proce[i].tIOFita = 1 + (rand() % proce[i].tserv);
+          proce[i].tIODisco = 0;
+      }
+      if (probIO > 4 && probIO <= 6) {
+          proce[i].tIOImpressora = 0;
+          proce[i].tIOFita = 0;
+          proce[i].tIODisco = 1 + (rand() % proce[i].tserv);
+      }
+      if (probIO > 6) {
+          proce[i].tIOImpressora = 0;
+          proce[i].tIOFita = 0;
+          proce[i].tIODisco = 0;
+      }
       //rand_interval(0,proce[i].tserv);
 
       printf("PID : %d\n", proce[i].PID );
